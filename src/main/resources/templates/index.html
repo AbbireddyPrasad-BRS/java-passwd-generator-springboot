@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Password Generator</h1>
+    <form method="post" action="/generate">
+        <input type="text" name="name" placeholder="Enter Name" th:value="${name}" required />
+<input type="date" name="dob" th:value="${dob}" required />
+
+        <button type="submit">Generate Password</button>
+    </form>
+
+    <div th:if="${password}">
+        <h3>Generated Password:</h3>
+        <p th:text="${password}"></p>
+        <div id="strengthBar"><div id="strength" th:style="'width:' + ${strength} + '%'"></div></div>
+        <p>Strength: <span th:text="${strength} + '%'"></span></p>
+        <form action="/success"><button type="submit" th:if="${strength} >= 70">OK</button></form>
+        <form method="post" action="/generate" th:if="${strength} < 70">
+            <input type="hidden" name="name" th:value="${name}" />
+            <input type="hidden" name="dob" th:value="${dob}" />
+            <button type="submit">Regenerate</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>
